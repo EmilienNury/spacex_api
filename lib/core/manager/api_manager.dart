@@ -34,6 +34,18 @@ class ApiManager {
     }
   }
 
+  Future<Launch?> getLaunchDetail(Launch launch) async {
+    try {
+      Launch? newLaunch = await dio
+          .get<Map<String, dynamic>>("/launches/${launch.id}")
+          .then((response) => parseLaunch(response.data));
+      return newLaunch;
+    } catch (error) {
+      print("Erreur : $error");
+      return null;
+    }
+  }
+
   /*Future<Launch?> getDetail(Launch launch) async {
     try {
       Spot? newSpot = await dio

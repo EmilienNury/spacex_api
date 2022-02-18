@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:spacex_api/core/model/launch.dart';
 import 'package:spacex_api/ui/home.dart';
+import 'package:spacex_api/ui/launch_detail.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -21,8 +23,31 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
+      onGenerateRoute: (RouteSettings settings) {
+        var arguments = settings.arguments;
+        switch (settings.name) {
+          case LaunchDetail.route:
+            if (arguments != null && arguments is LaunchDetailArguments) {
+              Launch launch = arguments.launch;
+              return MaterialPageRoute(builder: (_) => LaunchDetail(launch));
+            } else {
+              throw Exception(
+                  "Cette route doit avoir un objet SpotDetailArgument en argument");
+            }
+
+          default:
+            return unknownRoute();
+        }
+      },
       home: const HomePage(title: 'SpaceX upcoming launches'),
     );
+  }
+
+  MaterialPageRoute unknownRoute() {
+    return MaterialPageRoute(
+        builder: (_) => const Scaffold(
+          body: Center(child: Text("Route inconnue")),
+        ));
   }
 }
 
