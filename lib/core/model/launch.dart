@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:spacex_api/core/model/links.dart';
+import 'package:spacex_api/core/model/core.dart';
 
 part 'launch.g.dart';
 
@@ -10,8 +12,8 @@ class Launch {
   DateTime? date_utc;
   bool? success;
   String? landpad;
-  String? launchpad;
-  String? small;
+  List<Core>? cores;
+  Links? links;
 
   Launch(
       {required this.id,
@@ -19,8 +21,8 @@ class Launch {
         this.date_utc,
         this.success,
         this.landpad,
-        this.launchpad,
-        this.small});
+        this.cores,
+        this.links});
 
   factory Launch.fromJson(Map<String, dynamic> json) => _$LaunchFromJson(json);
 

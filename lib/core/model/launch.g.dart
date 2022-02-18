@@ -17,8 +17,15 @@ Launch _$LaunchFromJson(Map<String, dynamic> json) => $checkedCreate(
               (v) => v == null ? null : DateTime.parse(v as String)),
           success: $checkedConvert('success', (v) => v as bool?),
           landpad: $checkedConvert('landpad', (v) => v as String?),
-          launchpad: $checkedConvert('launchpad', (v) => v as String?),
-          small: $checkedConvert('small', (v) => v as String?),
+          cores: $checkedConvert(
+              'cores',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => Core.fromJson(e as Map<String, dynamic>))
+                  .toList()),
+          links: $checkedConvert(
+              'links',
+              (v) =>
+                  v == null ? null : Links.fromJson(v as Map<String, dynamic>)),
         );
         return val;
       },
@@ -30,6 +37,6 @@ Map<String, dynamic> _$LaunchToJson(Launch instance) => <String, dynamic>{
       'date_utc': instance.date_utc?.toIso8601String(),
       'success': instance.success,
       'landpad': instance.landpad,
-      'launchpad': instance.launchpad,
-      'small': instance.small,
+      'cores': instance.cores?.map((e) => e.toJson()).toList(),
+      'links': instance.links?.toJson(),
     };
