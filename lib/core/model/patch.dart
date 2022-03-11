@@ -6,6 +6,7 @@ part 'patch.g.dart';
     checked: true, explicitToJson: true, fieldRename: FieldRename.snake)
 class Patch {
   String? small;
+  String? large;
 
   Patch({this.small});
 

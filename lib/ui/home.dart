@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
-import 'package:spacex_api/core/manager/api_manager.dart';
-import 'package:spacex_api/core/model/launch.dart';
-import 'package:spacex_api/ui/components/launch_list.dart';
+import 'package:spacex_api/ui/components/map.dart';
+import 'package:spacex_api/ui/components/past_launches.dart';
+import 'package:spacex_api/ui/components/upcoming_launches.dart';
+import 'package:spacex_api/ui/launch_detail.dart';
+
+import '../core/model/launch.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
@@ -25,36 +27,53 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final ScrollController scrollController = ScrollController();
 
+  int _selectedIndex = 0;
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    UpcomingLaunches("Next launch:"),
+    PastLaucnhes(),
+    MapSample(),
+    Text('Info not implemented yet'),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: ApiManager().getUpcomingLaunches(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          var upcomingLaunches = snapshot.data as List<Launch>;
-          var endTime = upcomingLaunches[0].date_utc?.toLocal().millisecondsSinceEpoch ?? DateTime.now().millisecondsSinceEpoch + 1000 * 30;
-          return Scaffold(
-              appBar: AppBar(
-                // Here we take the value from the HomePage object that was created by
-                // the App.build method, and use it to set our appbar title.
-                title: Center(
-                    child: Column(
-                      children: [
-                        Text(widget.title),
-                        CountdownTimer(
-                          endTime: endTime
-                        ),
-                      ],
-                    )
-                )
-              ),
-              body: LaunchList(upcomingLaunches));
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_month),
+            label: 'Upcoming',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.watch_later),
+            label: 'Past',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Map',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.rocket),
+            label: 'Info',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        type: BottomNavigationBarType.fixed,
+        onTap: _onItemTapped,
+      ),
     ); // trailing comma makes auto-formatting nicer for build methods.
   }
 }

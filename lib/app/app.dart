@@ -32,22 +32,21 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_) => LaunchDetail(launch));
             } else {
               throw Exception(
-                  "Cette route doit avoir un objet SpotDetailArgument en argument");
+                  "Cette route doit avoir un objet LaunchDetailArgument en argument");
             }
 
           default:
             return unknownRoute();
         }
       },
-      home: const HomePage(title: 'SpaceX upcoming launches'),
+      home: const HomePage(title: 'SpaceX launches'),
     );
   }
 
   MaterialPageRoute unknownRoute() {
     return MaterialPageRoute(
         builder: (_) => const Scaffold(
-          body: Center(child: Text("Route inconnue")),
-        ));
+              body: Center(child: Text("Route inconnue")),
+            ));
   }
 }
-

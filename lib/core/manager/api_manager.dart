@@ -34,6 +34,18 @@ class ApiManager {
     }
   }
 
+  Future<List<Launch>?> getPastLaunches() async {
+    try {
+      List<Launch>? launches = await dio
+          .get<List<dynamic>>("/launches/past")
+          .then((response) => parseLaunches(response.data));
+      return launches;
+    } catch (error) {
+      print("Erreur : $error");
+      return null;
+    }
+  }
+
   Future<Launch?> getLaunchDetail(Launch launch) async {
     try {
       Launch? newLaunch = await dio

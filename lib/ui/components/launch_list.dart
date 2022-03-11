@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:spacex_api/core/model/launch.dart';
 import 'package:spacex_api/ui/components/image_placeholder.dart';
+import 'package:spacex_api/ui/launch_detail.dart';
 
 class LaunchList extends StatelessWidget {
   final List<Launch> launches;
@@ -16,10 +17,10 @@ class LaunchList extends StatelessWidget {
       itemBuilder: (context, position) {
         Launch launch = launches[position];
         return InkWell(
-          /*onTap: () {
+          onTap: () {
             Navigator.of(context).pushNamed(LaunchDetail.route,
                 arguments: LaunchDetailArguments(launch: launch));
-          },*/
+          },
           child: Row(
             children: [
               SizedBox(
@@ -27,7 +28,7 @@ class LaunchList extends StatelessWidget {
                   height: 100,
                   child: Image.network(
                     launch.links?.patch?.small ?? '',
-                    fit: BoxFit.cover,
+                    fit: BoxFit.scaleDown,
                     errorBuilder: (context, child, stack) {
                       return const ImagePlaceholder();
                     },
@@ -47,7 +48,8 @@ class LaunchList extends StatelessWidget {
                     const SizedBox(
                       height: 8,
                     ),
-                    Text("Date : ${DateFormat.yMd().add_Hm().format(launch.date_utc?.toLocal() ?? DateTime.now())}")
+                    Text(
+                        "Date : ${DateFormat.yMd().add_Hm().format(launch.date_utc?.toLocal() ?? DateTime.now())}")
                   ],
                 ),
               )

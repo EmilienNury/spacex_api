@@ -13,10 +13,12 @@ Patch _$PatchFromJson(Map<String, dynamic> json) => $checkedCreate(
         final val = Patch(
           small: $checkedConvert('small', (v) => v as String?),
         );
+        $checkedConvert('large', (v) => val.large = v as String?);
         return val;
       },
     );
 
 Map<String, dynamic> _$PatchToJson(Patch instance) => <String, dynamic>{
       'small': instance.small,
+      'large': instance.large,
     };
