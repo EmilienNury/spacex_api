@@ -53,18 +53,6 @@ class ApiManager {
     }
   }
 
-  Future<Launch?> getLaunchDetail(Launch launch) async {
-    try {
-      Launch? newLaunch = await dio
-          .get<Map<String, dynamic>>("/launches/${launch.id}")
-          .then((response) => parseLaunch(response.data));
-      return newLaunch;
-    } catch (error) {
-      print("Erreur : $error");
-      return null;
-    }
-  }
-
   Future<List<Launchpad>?> getLaunchpads() async {
     try {
       List<Launchpad>? launchpads = await dio
@@ -77,14 +65,4 @@ class ApiManager {
     }
   }
 
-  /*Future<Launch?> getDetail(Launch launch) async {
-    try {
-      Spot? newSpot = await dio
-          .get<Map<String, dynamic>>("/spot-details/${spot.id}.json")
-          .then((response) => Spot.fromJson(response.data!));
-      return newSpot!;
-    } catch (error) {
-      print("Erreur : $error");
-    }
-  }*/
 }
