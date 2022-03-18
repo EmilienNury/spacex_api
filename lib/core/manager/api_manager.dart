@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:spacex_api/core/model/launch.dart';
 
+import '../model/launchpad.dart';
+
 class ApiManager {
   Dio dio = Dio();
 
@@ -20,6 +22,11 @@ class ApiManager {
   Launch? parseLaunch(Map<String, dynamic>? json) {
     if(json == null) return null;
     return Launch.fromJson(json);
+  }
+
+  List<Launchpad>? parseLaunchpads(List<dynamic>? jsonArray) {
+    if(jsonArray == null) return null;
+    return jsonArray.map<Launchpad>((json) => Launchpad.fromJson(json)).toList();
   }
 
   Future<List<Launch>?> getUpcomingLaunches() async {
@@ -52,6 +59,18 @@ class ApiManager {
           .get<Map<String, dynamic>>("/launches/${launch.id}")
           .then((response) => parseLaunch(response.data));
       return newLaunch;
+    } catch (error) {
+      print("Erreur : $error");
+      return null;
+    }
+  }
+
+  Future<List<Launchpad>?> getLaunchpads() async {
+    try {
+      List<Launchpad>? launchpads = await dio
+          .get<List<dynamic>>("/launchpads")
+          .then((response) => parseLaunchpads(response.data));
+      return launchpads;
     } catch (error) {
       print("Erreur : $error");
       return null;
