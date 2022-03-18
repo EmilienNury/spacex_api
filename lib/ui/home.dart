@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:spacex_api/ui/components/favorite_launches.dart';
 import 'package:spacex_api/ui/components/map.dart';
 import 'package:spacex_api/ui/components/past_launches.dart';
 import 'package:spacex_api/ui/components/upcoming_launches.dart';
-import 'package:spacex_api/ui/launch_detail.dart';
-
-import '../core/model/launch.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
@@ -31,9 +29,10 @@ class _HomePageState extends State<HomePage> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     UpcomingLaunches("Next launch:"),
-    PastLaucnhes(),
+    PastLaunches(),
     MapSample(),
     Text('Info not implemented yet'),
+    FavoriteLaunches(),
   ];
 
   void _onItemTapped(int index) {
@@ -68,6 +67,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.rocket),
             label: 'Info',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Fav',
           ),
         ],
         currentIndex: _selectedIndex,
